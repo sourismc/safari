@@ -1,6 +1,6 @@
 package cloud.souris.aytos.mc.safari;
 
-import cn.nukkit.player.Player;
+import cn.nukkit.Player;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -32,20 +32,25 @@ public class SafariDataProvider {
 
     public void initializePlayer(SafariPlugin instance, Player player) {
         CompletableFuture.runAsync(() -> {
-            Document existing = this.playersData.find(new Document("uuid", player.getUniqueId())).first();
+            Document existing = this.playersData.find(new Document("uuid", player.getUniqueId().toString())).first();
+            SafariPlayer safariPlayer;
             if (existing == null) {
-                Document document = new Document("uuid", player.getUniqueId())
+                Document document = new Document("uuid", player.getUniqueId().toString())
                         .append("name", player.getName())
-                        .append("money", 100);
+                        .append("money", 100)
+                        .append("group", "player");
                 this.playersData.insertOne(document);
-                SafariPlayer safariPlayer = SafariPlayer.fromDocument(document);
+                safariPlayer = SafariPlayer.fromDocument(document);
                 instance.addPlayer(player.getUniqueId(), safariPlayer);
                 instance.getLogger().info("PlayerInfo created :)");
             } else {
-                SafariPlayer safariPlayer = SafariPlayer.fromDocument(existing);
+                safariPlayer = SafariPlayer.fromDocument(existing);
                 instance.addPlayer(player.getUniqueId(), safariPlayer);
                 instance.getLogger().info("PlayerInfo fetched :)");
             }
+
+            player.setNameTagAlwaysVisible(true);
+            player.setNameTag(safariPlayer.getSidebarName());
         });
     }
 }

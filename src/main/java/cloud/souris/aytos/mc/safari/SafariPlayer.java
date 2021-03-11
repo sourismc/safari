@@ -3,17 +3,19 @@ package cloud.souris.aytos.mc.safari;
 import org.bson.Document;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class SafariPlayer {
-    private long uuid;
+    private UUID uuid;
     private String name;
     private int money;
+    private String group;
 
-    public long getUuid() {
+    public UUID getUuid() {
         return uuid;
     }
 
-    public void setUuid(long uuid) {
+    public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
 
@@ -33,10 +35,19 @@ public class SafariPlayer {
         this.money = money;
     }
 
-    public SafariPlayer(long uuid, String name, int money) {
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public SafariPlayer(UUID uuid, String name, int money, String group) {
         this.uuid = uuid;
         this.name = name;
         this.money = money;
+        this.group = group;
     }
 
     @Override
@@ -45,7 +56,47 @@ public class SafariPlayer {
                 "uuid=" + uuid +
                 ", name='" + name + '\'' +
                 ", money=" + money +
+                ", group='" + group + '\'' +
                 '}';
+    }
+
+    public String getListName() {
+        StringBuilder sb = new StringBuilder();
+        switch (this.group) {
+            default:
+            case "player":
+                sb.append("\u00a7r");
+                break;
+            case "staff":
+                sb.append("\u00a76");
+                break;
+        }
+
+        return sb.toString();
+    }
+
+    public String getSidebarName() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\u00a7f["); // [
+        char nameColor;
+        switch (this.group) {
+            default:
+            case "player":
+                sb.append("\u00a77LVL-<L>");
+                nameColor = '7';
+                break;
+            case "staff":
+                sb.append("\u00a72SourisMC");
+                nameColor = '6';
+                break;
+        }
+        sb.append("\u00a7f] "); // ]
+
+        sb.append("\u00a7");
+        sb.append(nameColor);
+        sb.append(this.name);
+
+        return sb.toString();
     }
 
     @Override
@@ -62,6 +113,6 @@ public class SafariPlayer {
     }
 
     public static SafariPlayer fromDocument(Document document) {
-        return new SafariPlayer(document.getLong("uuid"), document.getString("name"), document.getInteger("money"));
+        return new SafariPlayer(UUID.fromString(document.getString("uuid")), document.getString("name"), document.getInteger("money"), document.getString("group"));
     }
 }

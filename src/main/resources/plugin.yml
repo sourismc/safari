@@ -1,0 +1,5 @@
+name: SourisKit
+version: "0.0.1"
+api: 1.0.0
+author: "me@souris.cloud"
+main: cloud.souris.aytos.mc.safari.SafariPlugin
