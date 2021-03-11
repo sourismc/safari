@@ -48,12 +48,14 @@
             <scope>system</scope>
             <systemPath>${basedir}/lib/ScoreboardAPI-1.4.jar</systemPath>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.projectlombok</groupId>-->
-<!--            <artifactId>lombok</artifactId>-->
-<!--            <version>1.18.18</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>ru.nukkitx</groupId>
+            <artifactId>FormAPI</artifactId>
+            <version>2.2-SNAPSHOT</version>
+            <optional>false</optional>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/FormAPI.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>

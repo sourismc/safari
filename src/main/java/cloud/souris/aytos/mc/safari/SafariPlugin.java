@@ -1,5 +1,7 @@
 package cloud.souris.aytos.mc.safari;
 
+import cn.nukkit.command.Command;
+import cn.nukkit.command.CommandSender;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerJoinEvent;
@@ -8,7 +10,9 @@ import cn.nukkit.event.player.PlayerQuitEvent;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.TextFormat;
 import de.lucgameshd.scoreboard.network.Scoreboard;
+import ru.nukkitx.forms.elements.CustomForm;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -76,5 +80,30 @@ public class SafariPlugin extends PluginBase implements Listener {
         removePlayer(event.getPlayer().getUniqueId());
 
         getLogger().info(TextFormat.WHITE + "Okay, odpojil se " + event.getPlayer().getName() + " a ma teda " + event.getPlayer().getUniqueId().toString());
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (command.getName().equalsIgnoreCase("safari") && sender instanceof Player) {
+            Player p = (Player) sender;
+
+            CustomForm customForm = new CustomForm()
+                    .addLabel("Nazdar, takze takhle to udelame")
+                    .addDropDown("Akce", Arrays.asList("Test 1", "Test 2", "Spawnout NPC"))
+                    .addInput("Pridavny argumenty")
+                    .addSlider("Prodleva", 0, 100)
+                    .addToggle("Zalogovat", false);
+
+            customForm.send(p, (targetPlayer, targetForm, data) -> {
+                if (data == null) {
+                    targetPlayer.sendChat("Ty zmrde!");
+                    return;
+                }
+
+                targetPlayer.sendMessage(data.toString());
+            });
+        }
+
+        return true;
     }
 }
