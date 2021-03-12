@@ -23,6 +23,7 @@ public class SafariPlugin extends PluginBase implements Listener {
     public SafariDataProvider dataProvider;
     public HashMap<UUID, SafariPlayer> players;
     public HashMap<UUID, Scoreboard> scoreboards;
+    public HashMap<UUID, Long> hoeCooldowns;
 
     @Override
     public void onLoad() {
@@ -40,6 +41,7 @@ public class SafariPlugin extends PluginBase implements Listener {
         dataProvider.connect(this);
         players = new HashMap<>();
         scoreboards = new HashMap<>();
+        hoeCooldowns = new HashMap<>();
 
         getServer().getScheduler().scheduleDelayedRepeatingTask(this, new SafariScoreboardUpdater(this), 80, 80, true);
     }
@@ -87,6 +89,15 @@ public class SafariPlugin extends PluginBase implements Listener {
     public void onClick(PlayerInteractEvent event) {
         if (event.getAction() == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK || event.getAction() == PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
             if (event.getPlayer().getInventory().getItemInHand().isHoe()) {
+                Long now = System.currentTimeMillis();
+                if (hoeCooldowns.containsKey(event.getPlayer().getUniqueId())) {
+                    getLogger().info("We have cooldown, so we check how long it is");
+                    Long cd = hoeCooldowns.get(event.getPlayer().getUniqueId());
+                    long diff = now - cd;
+                    event.getPlayer().sendChat("Ted je: " + now + " ; a bylo: " + cd + " ; a to znamena => " + diff);
+                } else {
+                    hoeCooldowns.put(event.getPlayer().getUniqueId(), now);
+                }
                 event.getPlayer().sendChat("Ty zmrde!!!!!!!!");
             }
         }
