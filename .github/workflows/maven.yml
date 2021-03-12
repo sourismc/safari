@@ -1,7 +1,18 @@
 name: Safari Maven CI
 on: [push]
 jobs:
-  build-and-deploy:
+  prepare-libs:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Stage external Libraries
+        run: mkdir staging && cp lib/*.jar staging-1
+      - name: Upload staged libraries as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: safari-dep-libs
+          path: staging
+  build-safari:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -11,20 +22,24 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: mvn --batch-mode install
-      - name: Stage artifact with libs for upload
+      - name: Stage plugin with libs for upload bundle artifact
         run: mkdir staging && cp target/safari.jar staging && cp lib/*.jar staging
-      - name: Upload artifact
+      - name: Upload plugin artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: safari-plugin
+          path: staging/safari.jar
+      - name: Upload bundle artifact
         uses: actions/upload-artifact@v2
         with:
           name: safari-plugin-bundle
           path: staging
-      - name: Copy files over SCP into Aytos
-        uses: appleboy/scp-action@master
+  deploy-aytos-nukkit:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Download bundle artifact
+        uses: actions/download-artifact@v2
         with:
-          host: ${{ secrets.AYTOS_SSH_HOST }}
-          port: ${{ secrets.AYTOS_SSH_PORT }}
-          username: ${{ secrets.AYTOS_SSH_USER }}
-          key: ${{ secrets.AYTOS_SSH_SECRET }}
-          source: "staging/*.jar"
-          target: "/srv/mc/nukkit/plugins/"
-          strip_components: 1
+          name: safari-plugin-bundle
+      - name: Review artifact
+        run: ls -l
