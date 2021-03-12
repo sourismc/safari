@@ -1,0 +1,10 @@
+name: learn-github-actions
+on: [push]
+jobs:
+  my-first-job:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - run: npm install -g bats
+      - run: bats -v

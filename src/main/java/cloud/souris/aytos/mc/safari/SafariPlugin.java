@@ -85,23 +85,23 @@ public class SafariPlugin extends PluginBase implements Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("safari") && sender instanceof Player) {
-            Player p = (Player) sender;
+            SafariCommands.safari((Player) sender, command, label, args);
 
-            CustomForm customForm = new CustomForm()
-                    .addLabel("Nazdar, takze takhle to udelame")
-                    .addDropDown("Akce", Arrays.asList("Test 1", "Test 2", "Spawnout NPC"))
-                    .addInput("Pridavny argumenty")
-                    .addSlider("Prodleva", 0, 100)
-                    .addToggle("Zalogovat", false);
-
-            customForm.send(p, (targetPlayer, targetForm, data) -> {
-                if (data == null) {
-                    targetPlayer.sendChat("Ty zmrde!");
-                    return;
-                }
-
-                targetPlayer.sendMessage(data.toString());
-            });
+//            CustomForm customForm = new CustomForm()
+//                    .addLabel("Nazdar, takze takhle to udelame")
+//                    .addDropDown("Akce", Arrays.asList("Test 1", "Test 2", "Spawnout NPC"))
+//                    .addInput("Pridavny argumenty")
+//                    .addSlider("Prodleva", 0, 100)
+//                    .addToggle("Zalogovat", false);
+//
+//            customForm.send(p, (targetPlayer, targetForm, data) -> {
+//                if (data == null) {
+//                    targetPlayer.sendChat("Ty zmrde!");
+//                    return;
+//                }
+//
+//                targetPlayer.sendMessage(data.toString());
+//            });
         }
 
         return true;
