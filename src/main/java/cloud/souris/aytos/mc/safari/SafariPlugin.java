@@ -8,6 +8,7 @@ import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.event.player.PlayerJoinEvent;
 import cn.nukkit.Player;
 import cn.nukkit.event.player.PlayerQuitEvent;
+import cn.nukkit.item.Item;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.TextFormat;
 import de.lucgameshd.scoreboard.network.Scoreboard;
@@ -88,13 +89,14 @@ public class SafariPlugin extends PluginBase implements Listener {
     @EventHandler
     public void onClick(PlayerInteractEvent event) {
         if (event.getAction() == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK || event.getAction() == PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
-            if (event.getPlayer().getInventory().getItemInHand().isHoe()) {
+            Item inHand = event.getPlayer().getInventory().getItemInHand();
+            if (inHand.isHoe()) {
                 Long now = System.currentTimeMillis();
                 if (hoeCooldowns.containsKey(event.getPlayer().getUniqueId())) {
                     Long cd = hoeCooldowns.get(event.getPlayer().getUniqueId());
                     long diff = now - cd;
                     hoeCooldowns.replace(event.getPlayer().getUniqueId(), now);
-                    if (diff > 5) {
+                    if (diff > 15) {
                         hoeEvent(event);
                     }
                 } else {
@@ -107,6 +109,7 @@ public class SafariPlugin extends PluginBase implements Listener {
 
     private void hoeEvent(PlayerInteractEvent event) {
         event.getPlayer().sendChat("HOE here :)");
+        event.getPlayer().sendChat("Tier: " + event.getPlayer().getInventory().getItemInHand().getTier());
         event.setCancelled(true);
     }
 
