@@ -12,7 +12,7 @@ public class SafariCommands {
                 sender.sendChat("Mame argumenty!");
                 sender.sendChat(args[0]);
             }
-            sender.sendChat("Ty vole!");
+            sender.sendChat("Ty vol e!");
         });
     }
 }
