@@ -4,6 +4,7 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
+import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.event.player.PlayerJoinEvent;
 import cn.nukkit.Player;
 import cn.nukkit.event.player.PlayerQuitEvent;
@@ -80,6 +81,15 @@ public class SafariPlugin extends PluginBase implements Listener {
         removePlayer(event.getPlayer().getUniqueId());
 
         getLogger().info(TextFormat.WHITE + "Okay, odpojil se " + event.getPlayer().getName() + " a ma teda " + event.getPlayer().getUniqueId().toString());
+    }
+
+    @EventHandler
+    public void onClick(PlayerInteractEvent event) {
+        if (event.getAction() == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK || event.getAction() == PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
+            if (event.getPlayer().getInventory().getItemInHand().isHoe()) {
+                event.getPlayer().sendChat("Ty zmrde!!!!!!!!");
+            }
+        }
     }
 
     @Override
