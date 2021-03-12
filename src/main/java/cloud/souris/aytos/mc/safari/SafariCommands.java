@@ -9,10 +9,10 @@ public class SafariCommands {
     public static void safari(Player sender, Command command, String label, String[] args) {
         CompletableFuture.runAsync(() -> {
             if (args.length > 0) {
-                sender.sendChat("Mame argumenty!");
+                sender.sendChat("Mame argumenty, co ale s nima?");
                 sender.sendChat(args[0]);
             }
-            sender.sendChat("Ty vol e!");
+            sender.sendChat("Ty vole, to je psycho!");
         });
     }
 }
