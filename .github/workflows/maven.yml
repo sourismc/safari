@@ -14,6 +14,7 @@ jobs:
           path: staging
   build-safari:
     runs-on: ubuntu-20.04
+    needs: prepare-libs
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
@@ -36,6 +37,7 @@ jobs:
           path: staging
   deploy-aytos-nukkit:
     runs-on: ubuntu-20.04
+    needs: build-safari
     steps:
       - name: Download bundle artifact
         uses: actions/download-artifact@v2
