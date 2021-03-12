@@ -91,16 +91,23 @@ public class SafariPlugin extends PluginBase implements Listener {
             if (event.getPlayer().getInventory().getItemInHand().isHoe()) {
                 Long now = System.currentTimeMillis();
                 if (hoeCooldowns.containsKey(event.getPlayer().getUniqueId())) {
-                    getLogger().info("We have cooldown, so we check how long it is");
                     Long cd = hoeCooldowns.get(event.getPlayer().getUniqueId());
                     long diff = now - cd;
-                    event.getPlayer().sendChat("Ted je: " + now + " ; a bylo: " + cd + " ; a to znamena => " + diff);
+                    hoeCooldowns.replace(event.getPlayer().getUniqueId(), now);
+                    if (diff > 5) {
+                        hoeEvent(event);
+                    }
                 } else {
                     hoeCooldowns.put(event.getPlayer().getUniqueId(), now);
+                    hoeEvent(event);
                 }
-                event.getPlayer().sendChat("Ty zmrde!!!!!!!!");
             }
         }
+    }
+
+    private void hoeEvent(PlayerInteractEvent event) {
+        event.getPlayer().sendChat("HOE here :)");
+        event.setCancelled(true);
     }
 
     @Override
