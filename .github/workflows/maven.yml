@@ -1,5 +1,14 @@
 name: Safari Maven CI
-on: [push]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  release:
+    types:
+      - created
 jobs:
   prepare-libs:
     runs-on: ubuntu-20.04
@@ -14,7 +23,6 @@ jobs:
           path: staging
   build-safari:
     runs-on: ubuntu-20.04
-    needs: prepare-libs
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
@@ -43,5 +51,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: safari-plugin-bundle
-      - name: Review artifact
-        run: ls -l
+      - name: Copy files over SCP into Aytos
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.AYTOS_SSH_HOST }}
+          port: ${{ secrets.AYTOS_SSH_PORT }}
+          username: ${{ secrets.AYTOS_SSH_USER }}
+          key: ${{ secrets.AYTOS_SSH_SECRET }}
+          source: "*.jar"
+          target: "/srv/mc/nukkit/plugins/"
