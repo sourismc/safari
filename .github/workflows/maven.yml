@@ -24,7 +24,7 @@ jobs:
           host: ${{ secrets.AYTOS_SSH_HOST }}
           port: ${{ secrets.AYTOS_SSH_PORT }}
           username: ${{ secrets.AYTOS_SSH_USER }}
-          key: ${{ secrets.NOTATESTP }}
+          key: ${{ secrets.AYTOS_SSH_SECRET }}
           source: "staging/*.jar"
           target: "/srv/mc/nukkit/plugins/"
           strip_components: 1
