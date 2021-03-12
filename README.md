@@ -1,0 +1,1 @@
+# Safari Plugin for NukkitX
