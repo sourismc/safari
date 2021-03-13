@@ -14,7 +14,7 @@ public class AreaBounds {
     private double maxZ;
 
     public AreaBounds(Vector3 center) {
-        this.center = center;
+        this.center = center.floor();
         setupBounds();
     }
 

@@ -1,11 +1,13 @@
 package cloud.souris.aytos.mc.safari;
 
 import cloud.souris.aytos.mc.safari.areas.Area;
+import cloud.souris.aytos.mc.safari.areas.AreaFlag;
 import cloud.souris.aytos.mc.safari.listeners.PlayerListener;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.event.Listener;
 import cn.nukkit.Player;
+import cn.nukkit.level.Position;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.TextFormat;
 import de.lucgameshd.scoreboard.network.Scoreboard;
@@ -83,4 +85,23 @@ public class SafariPlugin extends PluginBase implements Listener {
     }
 
     public void removePlayer(UUID uuid) { this.players.remove(uuid); }
+
+    public Area getAreaByPosition(Position position) {
+        for (Area area : areas) {
+            if (area.getBounds().checkCollision(position)) {
+                return area;
+            }
+        }
+        return null;
+    }
+
+    public void createArea(String areaName, Player owner) {
+        AreaFlag disableMobs = new AreaFlag("disableMobs", true);
+        HashMap<String, AreaFlag> flags = new HashMap<>();
+        flags.put(disableMobs.getName(), disableMobs);
+        Area area = new Area(areaName, owner.getUniqueId(), owner.getPosition().asVector3f().asVector3().floor(), Area.AreaType.PlayerCreated, flags);
+
+        areas.add(area);
+        dataProvider.saveSingleAreaAsync(this, area);
+    }
 }
