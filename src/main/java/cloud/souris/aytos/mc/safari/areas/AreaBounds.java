@@ -65,8 +65,8 @@ public class AreaBounds {
 
     @Override
     public String toString() {
-        return "X: " + getMinX() + "-" + getMaxX() + " | " +
-                "Y: " + getMinY() + "-" + getMaxY() + " | " +
-                "Z: " + getMinZ() + "-" + getMaxZ();
+        return " X:  " + getMinX() + " - " + getMaxX() + "  \n  " +
+                " Y:  " + getMinY() + " - " + getMaxY() + "  \n  " +
+                " Z:  " + getMinZ() + " - " + getMaxZ();
     }
 }

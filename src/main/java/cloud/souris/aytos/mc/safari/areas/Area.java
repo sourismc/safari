@@ -48,7 +48,7 @@ public class Area {
     }
 
     public Document toDocument() {
-        ArrayList<Document> flagsList = new ArrayList<>();
+        List<Document> flagsList = new ArrayList<>();
         for (AreaFlag af : flags.values()) {
             flagsList.add(new Document().append("name", af.getName()).append("value", af.isAllowed()));
         }
@@ -59,7 +59,7 @@ public class Area {
                 .append("center_y", bounds.getCenter().y)
                 .append("center_z", bounds.getCenter().z)
                 .append("type", typeToString(type))
-                .append("flags", flagsList.toArray());
+                .append("flags", flagsList);
     }
 
     public Document toDocumentDescriptor() {

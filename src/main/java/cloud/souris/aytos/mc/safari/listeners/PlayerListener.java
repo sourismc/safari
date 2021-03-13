@@ -65,8 +65,6 @@ public class PlayerListener implements Listener {
     }
 
     private void hoeEvent(PlayerInteractEvent event) {
-        event.getPlayer().sendChat("HOE here :)");
-        event.getPlayer().sendChat("Tier: " + event.getPlayer().getInventory().getItemInHand().getTier());
         event.setCancelled(true);
 
         Area existingArea = instance.getAreaByPosition(event.getPlayer().getPosition());
@@ -79,9 +77,9 @@ public class PlayerListener implements Listener {
         AreaBounds bounds = new AreaBounds(event.getPlayer().getPosition().asVector3f().asVector3());
 
         CustomForm customForm = new CustomForm()
-                .setTitle("Vytvoření residence")
-                .addInput("Název residence", "např. 'Tady je moribundus'")
-                .addLabel("Residence se ti vytvoří v:")
+                .setTitle("Vytvoření rezidence")
+                .addInput("Název rezidence", "např. 'Tady je moribundus'")
+                .addLabel("Rezidence se ti vytvoří v:")
                 .addLabel(bounds.toString());
 
         customForm.send(event.getPlayer(), (targetPlayer, targetForm, data) -> {
@@ -92,6 +90,7 @@ public class PlayerListener implements Listener {
             String areaName = (String) data.get(0);
             if (!areaName.isEmpty()) {
                 instance.createArea(areaName, targetPlayer);
+                targetPlayer.sendMessage("Rezidence vytvořena");
             }
         });
 //                    .addLabel("Nazdar, takze takhle to udelame")
