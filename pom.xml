@@ -30,7 +30,7 @@
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
-            <artifactId>mongo-driver-sync</artifactId>
+            <artifactId>mongodb-driver-sync</artifactId>
             <version>4.2.2</version>
             <scope>compile</scope>
         </dependency>

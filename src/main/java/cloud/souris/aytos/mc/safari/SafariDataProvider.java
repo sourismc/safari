@@ -2,8 +2,8 @@ package cloud.souris.aytos.mc.safari;
 
 import cloud.souris.aytos.mc.safari.areas.Area;
 import cn.nukkit.Player;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
@@ -20,8 +20,8 @@ public class SafariDataProvider {
 
     public void connect(SafariPlugin instance) {
         CompletableFuture.runAsync(() -> {
-            MongoClientURI uri = new MongoClientURI("mongodb://nukkit:nukkit@localhost:33277/?authSource=nukkit");
-            this.mongoClient = new MongoClient(uri);
+//            MongoClientURI uri = new MongoClientURI("mongodb://nukkit:nukkit@localhost:33277/?authSource=nukkit");
+            this.mongoClient = MongoClients.create("mongodb://nukkit:nukkit@localhost:33277/?authSource=nukkit");
             this.mongoDatabase = this.mongoClient.getDatabase("nukkit");
             this.playersData = this.mongoDatabase.getCollection("players");
             this.areas = this.mongoDatabase.getCollection("areas");
