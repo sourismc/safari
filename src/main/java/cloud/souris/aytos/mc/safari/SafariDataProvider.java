@@ -44,6 +44,7 @@ public class SafariDataProvider {
                 Document document = new Document("uuid", player.getUniqueId().toString())
                         .append("name", player.getName())
                         .append("money", 100)
+                        .append("onlineStatus", false)
                         .append("group", "player");
                 this.playersData.insertOne(document);
                 safariPlayer = SafariPlayer.fromDocument(document);
