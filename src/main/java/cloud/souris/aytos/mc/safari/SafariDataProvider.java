@@ -73,7 +73,7 @@ public class SafariDataProvider {
 
     public void saveSingleArea(SafariPlugin instance, Area area) {
         if (isAreaInDatabase(area)) {
-            areas.updateOne(area.toDocumentDescriptor(), area.toDocument());
+            areas.updateOne(Filters.and(Filters.eq("name", area.getName()), Filters.eq("ownerId", area.getOwnerId().toString())), area.toDocument());
             instance.getLogger().info("Area saved in db! " + area.getName());
         } else {
             areas.insertOne(area.toDocument());
