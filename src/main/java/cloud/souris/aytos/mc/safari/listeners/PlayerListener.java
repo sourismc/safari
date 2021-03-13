@@ -35,6 +35,7 @@ public class PlayerListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         event.setQuitMessage("Tak cuus no, " + event.getPlayer().getName());
         instance.removePlayer(event.getPlayer().getUniqueId());
+        instance.dataProvider.setPlayerOnlineStatusAsync(instance, event.getPlayer().getUniqueId(), false);
 
         instance.getLogger().info(TextFormat.WHITE + "Okay, odpojil se " + event.getPlayer().getName() + " a ma teda " + event.getPlayer().getUniqueId().toString());
     }

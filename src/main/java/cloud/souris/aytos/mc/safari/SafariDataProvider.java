@@ -9,6 +9,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
 
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class SafariDataProvider {
@@ -46,17 +47,31 @@ public class SafariDataProvider {
                         .append("group", "player");
                 this.playersData.insertOne(document);
                 safariPlayer = SafariPlayer.fromDocument(document);
-                instance.addPlayer(player.getUniqueId(), safariPlayer);
                 instance.getLogger().info("PlayerInfo created :)");
             } else {
                 safariPlayer = SafariPlayer.fromDocument(existing);
-                instance.addPlayer(player.getUniqueId(), safariPlayer);
                 instance.getLogger().info("PlayerInfo fetched :)");
             }
 
+            instance.addPlayer(player.getUniqueId(), safariPlayer);
             player.setNameTagAlwaysVisible(true);
             player.setNameTag(safariPlayer.getSidebarName());
+            setPlayerOnlineStatus(instance, player.getUniqueId(), true);
         });
+    }
+
+    public void setPlayerOnlineStatusAsync(SafariPlugin instance, UUID uuid, boolean onlineStatus) {
+        CompletableFuture.runAsync(() -> {
+            setPlayerOnlineStatus(instance, uuid, onlineStatus);
+        });
+    }
+
+    public void setPlayerOnlineStatus(SafariPlugin instance, UUID uuid, boolean onlineStatus) {
+        try {
+            playersData.updateOne(Filters.eq("uuid", uuid.toString()), new Document("onlineStatus", onlineStatus));
+        } catch (Exception ignored) {
+            instance.getLogger().info("User for update online status was not found!");
+        }
     }
 
     public void loadAreasAsync(SafariPlugin instance) {
