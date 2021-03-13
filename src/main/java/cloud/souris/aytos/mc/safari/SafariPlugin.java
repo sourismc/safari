@@ -2,6 +2,7 @@ package cloud.souris.aytos.mc.safari;
 
 import cloud.souris.aytos.mc.safari.areas.Area;
 import cloud.souris.aytos.mc.safari.areas.AreaFlag;
+import cloud.souris.aytos.mc.safari.listeners.EntityListener;
 import cloud.souris.aytos.mc.safari.listeners.PlayerListener;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
@@ -52,8 +53,13 @@ public class SafariPlugin extends PluginBase implements Listener {
         return true;
     }
 
-    private void initialize() {
+    private void registerEventListeners() {
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+        getServer().getPluginManager().registerEvents(new EntityListener(this), this);
+    }
+
+    private void initialize() {
+        registerEventListeners();
 
         dataProvider = new SafariDataProvider();
         dataProvider.connect(this);
