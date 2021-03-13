@@ -7,6 +7,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import org.bson.Document;
 
 import java.util.UUID;
@@ -89,7 +90,8 @@ public class SafariDataProvider {
 
     public void saveSingleArea(SafariPlugin instance, Area area) {
         if (isAreaInDatabase(area)) {
-            areas.updateOne(Filters.and(Filters.eq("name", area.getName()), Filters.eq("ownerId", area.getOwnerId().toString())), area.toDocument());
+//            areas.updateOne(Filters.and(Filters.eq("name", area.getName()), Filters.eq("ownerId", area.getOwnerId().toString())), area.toDocument());
+            areaUpdateOne(area);
             instance.getLogger().info("Area saved in db! " + area.getName());
         } else {
             areas.insertOne(area.toDocument());
@@ -114,5 +116,22 @@ public class SafariDataProvider {
     private boolean isAreaInDatabase(Area a) {
         Document existing = this.areas.find(a.toDocumentDescriptor()).first();
         return existing != null;
+    }
+
+    private void areaUpdateOne(Area area) {
+        Document updateDocument = area.toDocument();
+        areas.updateOne(
+                Filters.and(
+                        Filters.eq("ownerId", area.getOwnerId().toString()),
+                        Filters.eq("name", area.getName())
+                ),
+                Updates.combine(
+                        Updates.set("center_x", updateDocument.get("center_x")),
+                        Updates.set("center_y", updateDocument.get("center_y")),
+                        Updates.set("center_z", updateDocument.get("center_z")),
+                        Updates.set("type", updateDocument.get("type")),
+                        Updates.set("flags", updateDocument.get("flags"))
+                )
+        );
     }
 }
