@@ -69,6 +69,7 @@ public class SafariPlugin extends PluginBase implements Listener {
         players = new HashMap<>();
         scoreboards = new HashMap<>();
         hoeCooldowns = new HashMap<>();
+        areaMessageCooldowns = new HashMap<>();
         areas = new ArrayList<>();
 
         getServer().getScheduler().scheduleDelayedRepeatingTask(this, new SafariScoreboardUpdater(this), 80, 80, true);
