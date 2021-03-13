@@ -8,9 +8,10 @@ import cn.nukkit.event.EventPriority;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.ItemFrameDropItemEvent;
 import cn.nukkit.event.entity.EntitySpawnEvent;
+import cn.nukkit.utils.TextFormat;
 
 public class EntityListener implements Listener {
-    private SafariPlugin instance;
+    private final SafariPlugin instance;
 
     public EntityListener(SafariPlugin instance) {
         this.instance = instance;
@@ -33,8 +34,7 @@ public class EntityListener implements Listener {
     public void onItemFrame(ItemFrameDropItemEvent event) {
         Area area = instance.getAreaByPosition(event.getBlock().getLocation());
         if (area != null) {
-            instance.getLogger().info("area -- here is onItemFrame -- so i cancel? ok?");
-            event.setCancelled(true);
+            instance.getLogger().info("area -- here is onItemFrame -- so i cancel? ok?" + TextFormat.DARK_PURPLE + "[for test its disabled so check what this is]");
         }
     }
 }

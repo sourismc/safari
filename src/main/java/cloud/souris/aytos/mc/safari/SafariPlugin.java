@@ -2,6 +2,7 @@ package cloud.souris.aytos.mc.safari;
 
 import cloud.souris.aytos.mc.safari.areas.Area;
 import cloud.souris.aytos.mc.safari.areas.AreaFlag;
+import cloud.souris.aytos.mc.safari.listeners.BlockListener;
 import cloud.souris.aytos.mc.safari.listeners.EntityListener;
 import cloud.souris.aytos.mc.safari.listeners.PlayerListener;
 import cn.nukkit.command.Command;
@@ -24,6 +25,7 @@ public class SafariPlugin extends PluginBase implements Listener {
     public HashMap<UUID, SafariPlayer> players;
     public HashMap<UUID, Scoreboard> scoreboards;
     public HashMap<UUID, Long> hoeCooldowns;
+    public HashMap<UUID, Long> areaMessageCooldowns;
     public ArrayList<Area> areas;
 
     @Override
@@ -56,6 +58,7 @@ public class SafariPlugin extends PluginBase implements Listener {
     private void registerEventListeners() {
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         getServer().getPluginManager().registerEvents(new EntityListener(this), this);
+        getServer().getPluginManager().registerEvents(new BlockListener(this), this);
     }
 
     private void initialize() {

@@ -54,7 +54,7 @@ public class PlayerListener implements Listener {
                 Long cd = instance.hoeCooldowns.get(event.getPlayer().getUniqueId());
                 long diff = now - cd;
                 instance.hoeCooldowns.put(event.getPlayer().getUniqueId(), now);
-                if (diff > 100) {
+                if (diff > 2500) {
                     hoeEvent(event);
                 }
             } else {
