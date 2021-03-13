@@ -62,24 +62,20 @@ public class SafariDataProvider {
     }
 
     public void setPlayerOnlineStatusAsync(SafariPlugin instance, UUID uuid, boolean onlineStatus) {
-        CompletableFuture.runAsync(() -> {
-            setPlayerOnlineStatus(instance, uuid, onlineStatus);
-        });
+        CompletableFuture.runAsync(() -> setPlayerOnlineStatus(instance, uuid, onlineStatus));
     }
 
     public void setPlayerOnlineStatus(SafariPlugin instance, UUID uuid, boolean onlineStatus) {
         try {
             playersData.updateOne(Filters.eq("uuid", uuid.toString()), new Document("onlineStatus", onlineStatus));
-        } catch (Exception ignored) {
-            instance.getLogger().error("some error", ignored);
+        } catch (Exception exception) {
+            instance.getLogger().error("some error", exception);
             instance.getLogger().info("User for update online status was not found!");
         }
     }
 
     public void loadAreasAsync(SafariPlugin instance) {
-        CompletableFuture.runAsync(() -> {
-            loadAreas(instance);
-        });
+        CompletableFuture.runAsync(() -> loadAreas(instance));
     }
 
     public void loadAreas(SafariPlugin instance) {
@@ -102,9 +98,7 @@ public class SafariDataProvider {
     }
 
     public void saveSingleAreaAsync(SafariPlugin instance, Area area) {
-        CompletableFuture.runAsync(() -> {
-            saveSingleArea(instance, area);
-        });
+        CompletableFuture.runAsync(() -> saveSingleArea(instance, area));
     }
 
     public void saveAreasSync(SafariPlugin instance) {
@@ -114,9 +108,7 @@ public class SafariDataProvider {
     }
 
     public void saveAreasAsync(SafariPlugin instance) {
-        CompletableFuture.runAsync(() -> {
-            saveAreasSync(instance);
-        });
+        CompletableFuture.runAsync(() -> saveAreasSync(instance));
     }
 
     private boolean isAreaInDatabase(Area a) {

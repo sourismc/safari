@@ -9,7 +9,6 @@ import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.event.player.PlayerJoinEvent;
 import cn.nukkit.event.player.PlayerQuitEvent;
 import cn.nukkit.item.Item;
-import cn.nukkit.math.Vector3;
 import cn.nukkit.utils.TextFormat;
 import ru.nukkitx.forms.elements.CustomForm;
 
