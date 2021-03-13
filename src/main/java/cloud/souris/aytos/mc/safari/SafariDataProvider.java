@@ -21,7 +21,6 @@ public class SafariDataProvider {
 
     public void connect(SafariPlugin instance) {
         CompletableFuture.runAsync(() -> {
-//            MongoClientURI uri = new MongoClientURI("mongodb://nukkit:nukkit@localhost:33277/?authSource=nukkit");
             this.mongoClient = MongoClients.create("mongodb://nukkit:nukkit@localhost:33277/?authSource=nukkit");
             this.mongoDatabase = this.mongoClient.getDatabase("nukkit");
             this.playersData = this.mongoDatabase.getCollection("players");
@@ -68,7 +67,6 @@ public class SafariDataProvider {
 
     public void setPlayerOnlineStatus(SafariPlugin instance, UUID uuid, boolean onlineStatus) {
         try {
-//            playersData.updateOne(Filters.eq("uuid", uuid.toString()), new Document("onlineStatus", onlineStatus));
             playerUpdateOnlineStatus(uuid, onlineStatus);
         } catch (Exception exception) {
             instance.getLogger().error("some error", exception);
@@ -91,7 +89,6 @@ public class SafariDataProvider {
 
     public void saveSingleArea(SafariPlugin instance, Area area) {
         if (isAreaInDatabase(area)) {
-//            areas.updateOne(Filters.and(Filters.eq("name", area.getName()), Filters.eq("ownerId", area.getOwnerId().toString())), area.toDocument());
             areaUpdateOne(area);
             instance.getLogger().info("Area saved in db! " + area.getName());
         } else {
@@ -118,6 +115,8 @@ public class SafariDataProvider {
         Document existing = this.areas.find(a.toDocumentDescriptor()).first();
         return existing != null;
     }
+
+    // UPDATES
 
     private void areaUpdateOne(Area area) {
         Document updateDocument = area.toDocument();
