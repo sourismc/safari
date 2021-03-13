@@ -70,6 +70,7 @@ public class SafariDataProvider {
         try {
             playersData.updateOne(Filters.eq("uuid", uuid.toString()), new Document("onlineStatus", onlineStatus));
         } catch (Exception ignored) {
+            instance.getLogger().error("some error", ignored);
             instance.getLogger().info("User for update online status was not found!");
         }
     }
