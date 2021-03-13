@@ -1,18 +1,24 @@
 package cloud.souris.aytos.mc.safari;
 
+import cloud.souris.aytos.mc.safari.areas.Area;
 import cn.nukkit.Player;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class SafariDataProvider {
     private MongoClient mongoClient;
     private MongoDatabase mongoDatabase;
     private MongoCollection<Document> playersData;
+    private MongoCollection<Document> areas;
 
     public void connect(SafariPlugin instance) {
         CompletableFuture.runAsync(() -> {
@@ -20,6 +26,7 @@ public class SafariDataProvider {
             this.mongoClient = new MongoClient(uri);
             this.mongoDatabase = this.mongoClient.getDatabase("nukkit");
             this.playersData = this.mongoDatabase.getCollection("players");
+            this.areas = this.mongoDatabase.getCollection("areas");
 
             instance.getLogger().info("MongoDB Connected");
         });
@@ -52,5 +59,48 @@ public class SafariDataProvider {
             player.setNameTagAlwaysVisible(true);
             player.setNameTag(safariPlayer.getSidebarName());
         });
+    }
+
+    public void loadAreasAsync(SafariPlugin instance) {
+        CompletableFuture.runAsync(() -> {
+            instance.areas.clear();
+            for (Document document : this.areas.find(new Document())) {
+                instance.areas.add(new Area(document));
+                instance.getLogger().info("Adding area " + document.getString("name"));
+            }
+        });
+    }
+
+    public void saveSingleArea(SafariPlugin instance, Area area) {
+        if (isAreaInDatabase(area)) {
+            areas.updateOne(area.toDocumentDescriptor(), area.toDocument());
+            instance.getLogger().info("Area saved in db! " + area.getName());
+        } else {
+            areas.insertOne(area.toDocument());
+            instance.getLogger().info("Area updated in db! " + area.getName());
+        }
+    }
+
+    public void saveSingleAreaAsync(SafariPlugin instance, Area area) {
+        CompletableFuture.runAsync(() -> {
+            saveSingleArea(instance, area);
+        });
+    }
+
+    public void saveAreasSync(SafariPlugin instance) {
+        for (Area area : instance.areas) {
+            saveSingleArea(instance, area);
+        }
+    }
+
+    public void saveAreasAsync(SafariPlugin instance) {
+        CompletableFuture.runAsync(() -> {
+            saveAreasSync(instance);
+        });
+    }
+
+    private boolean isAreaInDatabase(Area a) {
+        Document existing = this.areas.find(a.toDocumentDescriptor()).first();
+        return existing != null;
     }
 }
