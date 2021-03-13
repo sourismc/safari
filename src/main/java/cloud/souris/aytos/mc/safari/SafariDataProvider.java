@@ -68,7 +68,8 @@ public class SafariDataProvider {
 
     public void setPlayerOnlineStatus(SafariPlugin instance, UUID uuid, boolean onlineStatus) {
         try {
-            playersData.updateOne(Filters.eq("uuid", uuid.toString()), new Document("onlineStatus", onlineStatus));
+//            playersData.updateOne(Filters.eq("uuid", uuid.toString()), new Document("onlineStatus", onlineStatus));
+            playerUpdateOnlineStatus(uuid, onlineStatus);
         } catch (Exception exception) {
             instance.getLogger().error("some error", exception);
             instance.getLogger().info("User for update online status was not found!");
@@ -132,6 +133,13 @@ public class SafariDataProvider {
                         Updates.set("type", updateDocument.get("type")),
                         Updates.set("flags", updateDocument.get("flags"))
                 )
+        );
+    }
+
+    private void playerUpdateOnlineStatus(UUID playerUuid, boolean status) {
+        playersData.updateOne(
+                Filters.eq("uuid", playerUuid.toString()),
+                Updates.set("onlineStatus", status)
         );
     }
 }
