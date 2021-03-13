@@ -29,6 +29,7 @@ public class SafariDataProvider {
             this.areas = this.mongoDatabase.getCollection("areas");
 
             instance.getLogger().info("MongoDB Connected");
+            loadAreasAsync(instance);
         });
     }
 
