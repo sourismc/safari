@@ -63,12 +63,17 @@ public class SafariDataProvider {
 
     public void loadAreasAsync(SafariPlugin instance) {
         CompletableFuture.runAsync(() -> {
-            instance.areas.clear();
-            for (Document document : this.areas.find(new Document())) {
-                instance.areas.add(new Area(document));
-                instance.getLogger().info("Adding area " + document.getString("name"));
-            }
+            loadAreas(instance);
         });
+    }
+
+    public void loadAreas(SafariPlugin instance) {
+        instance.getLogger().info("Loading areas...");
+        instance.areas.clear();
+        for (Document document : this.areas.find(new Document())) {
+            instance.areas.add(new Area(document));
+            instance.getLogger().info("Adding area " + document.getString("name"));
+        }
     }
 
     public void saveSingleArea(SafariPlugin instance, Area area) {
