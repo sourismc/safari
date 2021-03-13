@@ -19,7 +19,7 @@ public class BlockListener implements Listener {
     public void onInteract(PlayerInteractEvent event) {
         Area area = instance.getAreaByPosition(event.getBlock().getLocation());
         if (area != null) {
-            if (event.getPlayer().getUniqueId() != area.getOwnerId()) {
+            if (!event.getPlayer().getUniqueId().toString().equalsIgnoreCase(area.getOwnerId().toString())) {
                 event.setCancelled(true);
                 notify(event.getPlayer(), "Tady nemuzes nic delat, jsi na navsteve v '" + area.getName() + "'");
             }
