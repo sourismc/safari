@@ -75,8 +75,9 @@ public class SafariCommands {
                         } else {
                             sender.sendMessage("Zadne NPC s ID " + args[1] + " neexistuje!");
                         }
-                    } catch (Exception ignored) {
+                    } catch (Exception exception) {
                         sender.sendMessage("Zkus /npc despawn [id_npc]");
+                        instance.getLogger().error("NPC DESPAWN", exception);
                     }
                     break;
                 default:
