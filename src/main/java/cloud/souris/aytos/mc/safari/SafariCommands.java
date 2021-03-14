@@ -4,6 +4,7 @@ import cloud.souris.aytos.mc.safari.npcs.EntityUtils;
 import cloud.souris.aytos.mc.safari.npcs.HumanNPC;
 import cn.nukkit.Player;
 import cn.nukkit.command.Command;
+import cn.nukkit.entity.Entity;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -41,28 +42,47 @@ public class SafariCommands {
 
     public static void npc(SafariPlugin instance, Player sender, Command command, String label, String[] args) {
         CompletableFuture.runAsync(() -> {
-            if (args.length < 2 || !args[0].equalsIgnoreCase("spawn")) {
-                sender.sendMessage("Zkus /npc spawn [jmeno_npc]");
+            if (args.length < 2 || (!args[0].equalsIgnoreCase("spawn") && !args[0].equalsIgnoreCase("despawn"))) {
+                sender.sendMessage("Zkus /npc (spawn|despawn) args...");
                 return;
             }
 
-            String npcName = args[1].trim();
-            if (npcName.isEmpty() || npcName.length() < 3) {
-                sender.sendMessage("Zkus /npc spawn [jmeno_npc]");
-                return;
+            switch (args[0]) {
+                case "spawn":
+                    String npcName = args[1].trim();
+                    if (npcName.isEmpty() || npcName.length() < 3) {
+                        sender.sendMessage("Zkus /npc spawn [jmeno_npc]");
+                        return;
+                    }
+                    // Compose spaces-friendly name from arguments
+                    npcName = String.join(" ", args)
+                            .replaceFirst("spawn", "")
+                            .replaceFirst(" ", "");
+                    if (instance.npcExists(npcName)) {
+                        sender.sendMessage("NPC s jmenem " + args[1] + " jiz existuje, zkus jine!");
+                        return;
+                    }
+                    // Spawn NPC
+                    EntityUtils.spawnNPC(instance, sender, HumanNPC.class.getSimpleName(), npcName);
+                    break;
+                case "despawn":
+                    try {
+                        long npcId = Long.getLong(args[1]);
+                        Entity entity = sender.getLevel().getEntity(npcId);
+                        if (entity != null) {
+                            entity.despawnFromAll();
+                            sender.sendMessage("NPC bylo smazano!");
+                        } else {
+                            sender.sendMessage("Zadne NPC s ID " + args[1] + " neexistuje!");
+                        }
+                    } catch (Exception ignored) {
+                        sender.sendMessage("Zkus /npc despawn [id_npc]");
+                    }
+                    break;
+                default:
+                    sender.sendMessage("Zkus /npc (spawn|despawn) args...");
+                    return;
             }
-
-            // Compose spaces-friendly name from arguments
-            npcName = String.join(" ", args)
-                    .replaceFirst("spawn", "")
-                    .replaceFirst(" ", "");
-
-            if (instance.npcExists(npcName)) {
-                sender.sendMessage("NPC s jmenem " + args[1] + " jiz existuje, zkus jine!");
-                return;
-            }
-
-            EntityUtils.spawnNPC(instance, sender, HumanNPC.class.getSimpleName(), npcName);
         });
     }
 }
