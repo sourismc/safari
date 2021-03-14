@@ -8,7 +8,6 @@ import cn.nukkit.item.Item;
 import cn.nukkit.item.ItemBookWritten;
 import cn.nukkit.item.ItemCompass;
 import cn.nukkit.level.Level;
-import cn.nukkit.level.Location;
 import cn.nukkit.level.Position;
 import cn.nukkit.math.Vector3;
 import cn.nukkit.utils.TextFormat;
@@ -18,7 +17,7 @@ import static cloud.souris.aytos.mc.safari.listeners.AreasListener.hoeEvent;
 public class PlayerListener implements Listener {
     private final SafariPlugin instance;
 
-    private final String[] introBookLines = {
+    private final String[] introBookPages = { // 32 znaku na radek | max 50 stran
             "Ahoj! Tady se dozvíš co a jak.\nJe to takový stručný návod k tomuhle serveru!\nOBSAH:\n  3. - 4. strana = Rezidence", // 1
             "", // 2
             "REZIDENCE:\n Pokud si chceš založit rezidenci, potřebuješ dřevěnou motyku a dojít do středu tvé nové rezidence.\n " + // 3
@@ -48,7 +47,7 @@ public class PlayerListener implements Listener {
         safariBook.writeBook(
                 TextFormat.RED + "Souris.CLOUD",
                 TextFormat.GREEN + "Příručka serveru",
-                introBookLines
+                introBookPages
         );
         boolean thisPlayerAlreadyHaveIntroBook = false;
         for (Item i : event.getPlayer().getInventory().getContents().values()) {
