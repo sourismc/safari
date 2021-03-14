@@ -9,6 +9,7 @@ import cn.nukkit.item.ItemBookWritten;
 import cn.nukkit.item.ItemCompass;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
+import cn.nukkit.level.Position;
 import cn.nukkit.math.Vector3;
 import cn.nukkit.utils.TextFormat;
 
@@ -116,11 +117,12 @@ public class PlayerListener implements Listener {
         }
 
         if (inHand instanceof ItemCompass) {
-            event.getPlayer().sendMessage("Okay tohle je kompas :-)");
-        }
-
-        if (inHand.getId() == 345) { // is Compass
-            event.getPlayer().sendMessage("Okay tohle je na 100% kompas :-)");
+            Position pos = event.getPlayer().getPosition().floor();
+            event.getPlayer().sendTip(
+                    TextFormat.GREEN + "X" + TextFormat.GRAY + ": " + TextFormat.WHITE + pos.getX() + TextFormat.GRAY + " | " +
+                    TextFormat.GREEN + "Y" + TextFormat.GRAY + ": " + TextFormat.WHITE + pos.getY() + TextFormat.GRAY + " | " +
+                    TextFormat.GREEN + "Z" + TextFormat.GRAY + ": " + TextFormat.WHITE + pos.getZ()
+            );
         }
     }
 }
