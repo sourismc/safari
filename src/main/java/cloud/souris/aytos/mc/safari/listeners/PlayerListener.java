@@ -6,6 +6,7 @@ import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.*;
 import cn.nukkit.item.Item;
 import cn.nukkit.item.ItemBookWritten;
+import cn.nukkit.item.ItemCompass;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
 import cn.nukkit.math.Vector3;
@@ -112,6 +113,10 @@ public class PlayerListener implements Listener {
                 instance.hoeCooldowns.put(event.getPlayer().getUniqueId(), now);
                 hoeEvent(instance, event);
             }
+        }
+
+        if (inHand.isTool() && inHand instanceof ItemCompass) {
+            event.getPlayer().sendMessage("Okay tohle je kompas :-)");
         }
     }
 }
