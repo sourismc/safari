@@ -68,8 +68,11 @@ public class SafariCommands {
                 case "despawn":
                     try {
                         int npcId = Integer.getInteger(args[1]);
+                        instance.getLogger().info("argument int: " + npcId);
                         Entity entity = sender.getLevel().getEntity(npcId);
+                        instance.getLogger().info("checking null");
                         if (entity != null) {
+                            instance.getLogger().info("entity found");
                             entity.close();
                             sender.sendMessage("NPC bylo smazano!");
                         } else {
