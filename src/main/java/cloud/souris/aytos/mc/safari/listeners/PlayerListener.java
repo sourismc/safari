@@ -1,7 +1,6 @@
 package cloud.souris.aytos.mc.safari.listeners;
 
 import cloud.souris.aytos.mc.safari.SafariPlugin;
-import cn.nukkit.Player;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerBedEnterEvent;
@@ -13,22 +12,20 @@ import cn.nukkit.item.ItemBookWritten;
 import cn.nukkit.level.Level;
 import cn.nukkit.utils.TextFormat;
 
-import java.util.Arrays;
-
 import static cloud.souris.aytos.mc.safari.listeners.AreasListener.hoeEvent;
 
 public class PlayerListener implements Listener {
     private final SafariPlugin instance;
 
     private final String[] introBookLines = {
-            "Ahoj! Tady se dozvíš co a jak.\nJe to takový stručný návod k tomuhle serveru!",
-            "OBSAH:\n  3. - 6. strana = Rezidence",
-            "REZIDENCE:\n Pokud si chceš založit rezidenci, potřebuješ dřevěnou motyku a dojít do středu tvé nové rezidence.",
-            "Od místa kde stojíš se na každou stranu (150 kostek) ohraničí tvá rezidence, kde budeš ty a tvoje zásoby v bezpečí!",
-            "V místě použij pravé tlačítko myši s dřevěnou motykou v ruce a objeví se ti formulář pro založení rezidence.",
-            "Úpravný formulář je prozatím ve výstavbě, a pokud jsi v cizí (prozatím i své) rezidenci server ti to napíše do chatu!",
-            "",
-            "ZÁVĚR:\n Doufáme že se tady budete bavit a hrát tu rádi! :]"
+            "Ahoj! Tady se dozvíš co a jak.\nJe to takový stručný návod k tomuhle serveru!\nOBSAH:\n  3. - 4. strana = Rezidence", // 1
+            "", // 2
+            "REZIDENCE:\n Pokud si chceš založit rezidenci, potřebuješ dřevěnou motyku a dojít do středu tvé nové rezidence.\n " + // 3
+                "Od místa kde stojíš se na každou stranu (150 kostek) ohraničí tvá rezidence, kde budeš ty a tvoje zásoby v bezpečí!",
+            " V místě použij pravé tlačítko myši s dřevěnou motykou v ruce a objeví se ti formulář pro založení rezidence.\n" + // 4
+                " Úpravný formulář je prozatím ve výstavbě, a pokud jsi v cizí (prozatím i své) rezidenci server ti to napíše do chatu!",
+            "", // 5
+            "ZÁVĚR:\n Doufáme že se tady budete bavit a hrát tu rádi! :]" // 6
     };
 
     public PlayerListener(SafariPlugin instance) {
