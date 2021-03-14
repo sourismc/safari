@@ -3,6 +3,7 @@ package cloud.souris.aytos.mc.safari.npcs;
 import cloud.souris.aytos.mc.safari.SafariPlugin;
 import cn.nukkit.Player;
 import cn.nukkit.entity.Entity;
+import cn.nukkit.event.player.PlayerTeleportEvent;
 import cn.nukkit.level.Position;
 import cn.nukkit.nbt.tag.*;
 
@@ -70,21 +71,20 @@ public class EntityUtils {
     public static void teleportPlayerToWorldSpawn(SafariPlugin instance, Player player) {
         Position worldSpawnPosition = player.getLevel().getSafeSpawn();
         instance.getLogger().info("WorldSpawn is: " + worldSpawnPosition.toString());
-        instance.getLogger().info("Player is: " + player.getPosition().toString());
-        instance.getLogger().info("Should teleport? :)");
+        instance.getLogger().info("Player is: " + player.getPosition().floor().toString());
+        player.teleport(worldSpawnPosition, PlayerTeleportEvent.TeleportCause.PLUGIN);
     }
 
     public static void teleportPlayerToHome(SafariPlugin instance, Player player) {
         Position homeSpawnPosition = player.getSpawn();
         instance.getLogger().info("HomeSpawn is: " + homeSpawnPosition.toString());
-        instance.getLogger().info("Player is: " + player.getPosition().toString());
-        instance.getLogger().info("Should teleport? :)");
+        instance.getLogger().info("Player is: " + player.getPosition().floor().toString());
+        player.teleport(homeSpawnPosition, PlayerTeleportEvent.TeleportCause.PLUGIN);
     }
 
     public static void setPlayersHome(SafariPlugin instance, Player player) {
         Position oldHome = player.getSpawn();
         instance.getLogger().info("Old home spawn is: " + oldHome.toString());
-        instance.getLogger().info("Going to set it to: " + player.getPosition().toString());
-        instance.getLogger().info("Should teleport? :)");
+        instance.getLogger().info("Going to set it to: " + player.getPosition().floor().toString());
     }
 }
