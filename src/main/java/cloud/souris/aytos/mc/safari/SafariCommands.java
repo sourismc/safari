@@ -8,13 +8,34 @@ import cn.nukkit.command.Command;
 import java.util.concurrent.CompletableFuture;
 
 public class SafariCommands {
-    public static void safari(Player sender, Command command, String label, String[] args) {
+    public static void safari(SafariPlugin instance, Player sender, Command command, String label, String[] args) {
         CompletableFuture.runAsync(() -> {
             if (args.length > 0) {
-                sender.sendChat("Mame argumenty, co ale s nima?");
-                sender.sendChat(args[0]);
+                switch (args[0]) {
+                    case "tp":
+                        if (args.length != 2) {
+                            sender.sendMessage("Použij /safari tp (home|worldspawn)");
+                        } else {
+                            switch (args[1]) {
+                                case "home":
+                                    EntityUtils.teleportPlayerToHome(instance, sender);
+                                    break;
+                                case "worldspawn":
+                                    EntityUtils.teleportPlayerToWorldSpawn(instance, sender);
+                                    break;
+                            }
+                        }
+                        break;
+                    case "sethome":
+                        EntityUtils.setPlayersHome(instance, sender);
+                        break;
+                    default:
+                        sender.sendMessage("Použij /safar (tp|sethome) ...");
+                        break;
+                }
+            } else {
+                sender.sendMessage("SafariCommand with no args was called");
             }
-            sender.sendChat("Ty vole, to je psycho!");
         });
     }
 
