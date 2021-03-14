@@ -25,13 +25,10 @@ public class PlayerListener implements Listener {
                 TextFormat.DARK_GRAY + "[" + TextFormat.GREEN + "+" + TextFormat.DARK_GRAY + "] " +
                 TextFormat.WHITE + event.getPlayer().getName());
 
+        // asi nefunguje?
         event.getPlayer().sendTitle(
                 TextFormat.GREEN + "Vítej na " + TextFormat.WHITE + "Souris" + TextFormat.MINECOIN_GOLD + "MC",
-                TextFormat.AQUA + "" + TextFormat.ITALIC + "Vývojová verze",
-                60,
-                40,
-                30
-        );
+                TextFormat.AQUA + "" + TextFormat.ITALIC + "Vývojová verze");
 
         instance.dataProvider.initializePlayer(instance, event.getPlayer());
     }

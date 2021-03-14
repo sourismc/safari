@@ -8,6 +8,6 @@ public class SafariUtils {
             hours = 0;
         }
 
-        return String.format("%02d:%02d", hours, minutes);
+        return String.format("%02d:%02d", hours, minutes); // 4609:22   ????
     }
 }
