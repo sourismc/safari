@@ -3,13 +3,12 @@ package cloud.souris.aytos.mc.safari.listeners;
 import cloud.souris.aytos.mc.safari.SafariPlugin;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
-import cn.nukkit.event.player.PlayerBedEnterEvent;
-import cn.nukkit.event.player.PlayerInteractEvent;
-import cn.nukkit.event.player.PlayerJoinEvent;
-import cn.nukkit.event.player.PlayerQuitEvent;
+import cn.nukkit.event.player.*;
 import cn.nukkit.item.Item;
 import cn.nukkit.item.ItemBookWritten;
 import cn.nukkit.level.Level;
+import cn.nukkit.level.Location;
+import cn.nukkit.math.Vector3;
 import cn.nukkit.utils.TextFormat;
 
 import static cloud.souris.aytos.mc.safari.listeners.AreasListener.hoeEvent;
@@ -82,8 +81,12 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onBedEnter(PlayerBedEnterEvent event) {
+        Vector3 bedPosition = event.getBed().getLocation().floor().asVector3f().asVector3();
         event.getBed().getLevel().setTime(Level.TIME_DAY);
         event.setCancelled(true);
+        event.getPlayer().setTimeSinceRest(0);
+        event.getPlayer().setSpawn(bedPosition);
+        event.getPlayer().teleport(bedPosition, PlayerTeleportEvent.TeleportCause.PLUGIN);
         instance.getServer().broadcastMessage(
                 TextFormat.BLUE + "" + TextFormat.BOLD +
                 event.getPlayer().getName() + TextFormat.RESET + " " + TextFormat.WHITE +
