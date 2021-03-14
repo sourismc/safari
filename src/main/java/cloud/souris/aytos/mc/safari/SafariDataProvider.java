@@ -55,9 +55,10 @@ public class SafariDataProvider {
             }
 
             instance.addPlayer(player.getUniqueId(), safariPlayer);
-            player.setNameTagAlwaysVisible(true);
-            player.setNameTag(safariPlayer.getSidebarName());
             setPlayerOnlineStatus(instance, player.getUniqueId(), true);
+            player.setNameTag(safariPlayer.getSidebarName());
+            player.setNameTagVisible(true);
+            player.setNameTagAlwaysVisible(true);
         });
     }
 

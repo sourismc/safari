@@ -1,5 +1,7 @@
 package cloud.souris.aytos.mc.safari;
 
+import cn.nukkit.Player;
+import cn.nukkit.utils.TextFormat;
 import org.bson.Document;
 
 import java.util.Objects;
@@ -77,26 +79,50 @@ public class SafariPlayer {
 
     public String getSidebarName() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\u00a7f["); // [
-        char nameColor;
+        sb.append(TextFormat.DARK_GRAY);
+        sb.append("[");
+        TextFormat nameColor;
         switch (this.group) {
             default:
             case "player":
-                sb.append("\u00a77LVL-<L>");
-                nameColor = '7';
+                sb.append(TextFormat.WHITE);
+                sb.append("LVL-<L>");
+                nameColor = TextFormat.GRAY;
                 break;
             case "staff":
-                sb.append("\u00a72SourisMC");
-                nameColor = '6';
+                sb.append(TextFormat.GREEN);
+                sb.append("SourisMC");
+                nameColor = TextFormat.GOLD;
                 break;
         }
-        sb.append("\u00a7f] "); // ]
-
-        sb.append("\u00a7");
+        sb.append(TextFormat.DARK_GRAY);
+        sb.append("] ");
         sb.append(nameColor);
         sb.append(this.name);
 
         return sb.toString();
+    }
+
+    public String getSidebarNameWithPlayer(Player player) {
+        return getSidebarName().replace("<L>", formatPlayerXPLevel(player.getExperienceLevel()));
+    }
+
+    public String getScoreTagWithPlayer(Player player) {
+        return "" + TextFormat.UNDERLINE + TextFormat.GOLD + "BOSS";
+    }
+
+    public static String formatPlayerXPLevel(int expLevel) {
+        StringBuilder levelSB = new StringBuilder();
+        if (expLevel < 12) {
+            levelSB.append(TextFormat.DARK_BLUE);
+        } else if (expLevel < 23) {
+            levelSB.append(TextFormat.BLUE);
+        } else {
+            levelSB.append(TextFormat.AQUA);
+        }
+        levelSB.append(expLevel);
+
+        return levelSB.toString();
     }
 
     @Override

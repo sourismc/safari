@@ -6,6 +6,8 @@ import cloud.souris.aytos.mc.safari.listeners.AreasListener;
 import cloud.souris.aytos.mc.safari.listeners.NPCListener;
 import cloud.souris.aytos.mc.safari.listeners.PlayerListener;
 import cloud.souris.aytos.mc.safari.npcs.HumanNPC;
+import cloud.souris.aytos.mc.safari.updaters.NameTagUpdater;
+import cloud.souris.aytos.mc.safari.updaters.ScoreboardUpdater;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.entity.Entity;
@@ -19,6 +21,7 @@ import de.lucgameshd.scoreboard.network.Scoreboard;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.function.Function;
 
 public class SafariPlugin extends PluginBase implements Listener {
     private static SafariPlugin instance;
@@ -40,6 +43,7 @@ public class SafariPlugin extends PluginBase implements Listener {
     @Override
     public void onEnable() {
         this.getLogger().info(TextFormat.DARK_GREEN + "Enabled");
+        this.getServer().getNetwork().setName(TextFormat.GREEN + "Souris" + TextFormat.MINECOIN_GOLD + "MC"); // set MOTD
         initialize();
     }
 
@@ -51,12 +55,20 @@ public class SafariPlugin extends PluginBase implements Listener {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("safari") && sender instanceof Player) {
+        // na tohle jsem fakt pysnej, na to ze Javu neznam :D
+        Function<String, Boolean> commandCompare = (compare) -> command.getName().equalsIgnoreCase(compare) && sender instanceof Player;
+
+        if (commandCompare.apply("safari")) {
             SafariCommands.safari((Player) sender, command, label, args);
         }
 
-        if (command.getName().equalsIgnoreCase("npc") && sender instanceof Player) {
+        if (commandCompare.apply("npc")) {
             SafariCommands.npc(this, (Player) sender, command, label, args);
+        }
+
+        if (commandCompare.apply("xtime")) {
+            Player p = (Player) sender;
+            p.sendMessage("Aktuální čas je " + p.getLevel().getTime());
         }
 
         return true;
@@ -85,7 +97,8 @@ public class SafariPlugin extends PluginBase implements Listener {
         areas = new ArrayList<>();
         npcs = new HashMap<>();
 
-        getServer().getScheduler().scheduleDelayedRepeatingTask(this, new SafariScoreboardUpdater(this), 80, 80, true);
+        getServer().getScheduler().scheduleDelayedRepeatingTask(this, new ScoreboardUpdater(this), 80, 80, true);
+        getServer().getScheduler().scheduleDelayedRepeatingTask(this, new NameTagUpdater(this), 100, 100, true);
     }
 
     private void dispose() {

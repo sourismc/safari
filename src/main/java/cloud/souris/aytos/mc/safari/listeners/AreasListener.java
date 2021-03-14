@@ -2,6 +2,7 @@ package cloud.souris.aytos.mc.safari.listeners;
 
 import cloud.souris.aytos.mc.safari.SafariPlugin;
 import cloud.souris.aytos.mc.safari.areas.Area;
+import cloud.souris.aytos.mc.safari.areas.AreaBounds;
 import cn.nukkit.Player;
 import cn.nukkit.block.Block;
 import cn.nukkit.entity.mob.EntityMob;
@@ -18,6 +19,7 @@ import cn.nukkit.event.entity.EntitySpawnEvent;
 import cn.nukkit.event.player.PlayerDropItemEvent;
 import cn.nukkit.event.player.PlayerInteractEvent;
 import nukkitcoders.mobplugin.entities.BaseEntity;
+import ru.nukkitx.forms.elements.CustomForm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,5 +148,37 @@ public class AreasListener implements Listener {
                 event.setCancelled(true);
             }
         }
+    }
+
+    // Statics (invoked by common events)
+    public static void hoeEvent(SafariPlugin instance, PlayerInteractEvent event) {
+        event.setCancelled(true);
+
+        Area existingArea = instance.getAreaByPosition(event.getPlayer().getPosition());
+        if (existingArea != null) {
+            event.getPlayer().sendMessage("Tady už ale rezidence je: " + existingArea.getName());
+            event.getPlayer().sendMessage(existingArea.getBounds().toString());
+            return;
+        }
+
+        AreaBounds bounds = new AreaBounds(event.getPlayer().getPosition().asVector3f().asVector3());
+
+        CustomForm customForm = new CustomForm()
+                .setTitle("Vytvoření rezidence")
+                .addInput("Název rezidence", "např. 'Tady je moribundus'")
+                .addLabel("Rezidence se ti vytvoří v:")
+                .addLabel(bounds.toString());
+
+        customForm.send(event.getPlayer(), (targetPlayer, targetForm, data) -> {
+            if (data == null) {
+                return;
+            }
+
+            String areaName = (String) data.get(0);
+            if (!areaName.isEmpty()) {
+                instance.createArea(areaName, targetPlayer);
+                targetPlayer.sendMessage("Rezidence vytvořena");
+            }
+        });
     }
 }
