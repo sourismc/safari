@@ -43,8 +43,8 @@ public class SafariPlugin extends PluginBase implements Listener {
     @Override
     public void onEnable() {
         this.getLogger().info(TextFormat.DARK_GREEN + "Enabled");
-        this.getServer().getNetwork().setName(TextFormat.GREEN + "Souris" + TextFormat.MINECOIN_GOLD + "MC"); // set MOTD
-        this.getServer().getNetwork().setSubName("");
+        this.getServer().getNetwork().setName(TextFormat.GREEN + "Souris" + TextFormat.MINECOIN_GOLD + "MC" + TextFormat.WHITE); // set MOTD
+//        this.getServer().getNetwork().setSubName("");
         initialize();
     }
 
