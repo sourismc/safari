@@ -55,15 +55,15 @@ public class PlayerListener implements Listener {
                 TextFormat.AQUA + "" + TextFormat.ITALIC + "Vývojová verze");
 
 //        307 is ItemChestplateIron and not ItemBookWritten.....
-//        ItemBookWritten safariBook = (ItemBookWritten) Item.get(307, 0, 1);
-//        safariBook.writeBook(
-//                TextFormat.RED + "Souris.CLOUD",
-//                TextFormat.GREEN + "Příručka serveru",
-//                introBookLines
-//        );
-//        if (event.getPlayer().getInventory().canAddItem(safariBook)) {
-//            event.getPlayer().getInventory().addItem(safariBook);
-//        }
+        ItemBookWritten safariBook = (ItemBookWritten) Item.get(387, 0, 1);
+        safariBook.writeBook(
+                TextFormat.RED + "Souris.CLOUD",
+                TextFormat.GREEN + "Příručka serveru",
+                introBookLines
+        );
+        if (event.getPlayer().getInventory().canAddItem(safariBook)) {
+            event.getPlayer().getInventory().addItem(safariBook);
+        }
 
         instance.dataProvider.initializePlayer(instance, event.getPlayer());
     }
