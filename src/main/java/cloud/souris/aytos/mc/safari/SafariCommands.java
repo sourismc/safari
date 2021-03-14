@@ -68,16 +68,17 @@ public class SafariCommands {
                 case "despawn":
                     try {
                         instance.getLogger().info("convert args[1] to integer");
-                        int npcId = Integer.getInteger(args[1]);
-                        Entity entity = sender.getLevel().getEntity(npcId);
-                        instance.getLogger().info("checking null");
-                        if (entity != null) {
-                            instance.getLogger().info("entity found");
-                            entity.close();
-                            sender.sendMessage("NPC bylo smazano!");
-                        } else {
-                            sender.sendMessage("Zadne NPC s ID " + args[1] + " neexistuje!");
-                        }
+                        instance.getLogger().info(args[1]);
+//                        int npcId = Integer.getInteger(args[1]);
+//                        Entity entity = sender.getLevel().getEntity(npcId);
+//                        instance.getLogger().info("checking null");
+//                        if (entity != null) {
+//                            instance.getLogger().info("entity found");
+//                            entity.close();
+//                            sender.sendMessage("NPC bylo smazano!");
+//                        } else {
+//                            sender.sendMessage("Zadne NPC s ID " + args[1] + " neexistuje!");
+//                        }
                     } catch (Exception exception) {
                         sender.sendMessage("Zkus /npc despawn [id_npc]");
                         instance.getLogger().error("NPC DESPAWN", exception);
