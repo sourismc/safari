@@ -37,28 +37,32 @@ public class SafariDataProvider {
     }
 
     public void initializePlayer(SafariPlugin instance, Player player) {
-        CompletableFuture.runAsync(() -> {
-            Document existing = this.playersData.find(new Document("uuid", player.getUniqueId().toString())).first();
-            SafariPlayer safariPlayer;
-            if (existing == null) {
-                Document document = new Document("uuid", player.getUniqueId().toString())
-                        .append("name", player.getName())
-                        .append("money", 100)
-                        .append("onlineStatus", false)
-                        .append("group", "player");
-                this.playersData.insertOne(document);
-                safariPlayer = SafariPlayer.fromDocument(document);
-                instance.getLogger().info("PlayerInfo created :)");
-            } else {
-                safariPlayer = SafariPlayer.fromDocument(existing);
-                instance.getLogger().info("PlayerInfo fetched :)");
-            }
+        Document existing = this.playersData.find(new Document("uuid", player.getUniqueId().toString())).first();
+        SafariPlayer safariPlayer;
+        if (existing == null) {
+            Document document = new Document("uuid", player.getUniqueId().toString())
+                    .append("name", player.getName())
+                    .append("money", 100)
+                    .append("onlineStatus", false)
+                    .append("group", "player");
+            this.playersData.insertOne(document);
+            safariPlayer = SafariPlayer.fromDocument(document);
+            instance.getLogger().info("PlayerInfo created :)");
+        } else {
+            safariPlayer = SafariPlayer.fromDocument(existing);
+            instance.getLogger().info("PlayerInfo fetched :)");
+        }
 
-            instance.addPlayer(player.getUniqueId(), safariPlayer);
-            setPlayerOnlineStatus(instance, player.getUniqueId(), true);
-            player.setNameTag(safariPlayer.getSidebarName());
-            player.setNameTagVisible(true);
-            player.setNameTagAlwaysVisible(true);
+        instance.addPlayer(player.getUniqueId(), safariPlayer);
+        setPlayerOnlineStatus(instance, player.getUniqueId(), true);
+        player.setNameTag(safariPlayer.getSidebarName());
+        player.setNameTagVisible(true);
+        player.setNameTagAlwaysVisible(true);
+    }
+
+    public void initializePlayerAsync(SafariPlugin instance, Player player) {
+        CompletableFuture.runAsync(() -> {
+            initializePlayer(instance, player);
         });
     }
 

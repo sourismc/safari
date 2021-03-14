@@ -12,10 +12,6 @@ commands:
     description: Safari NPC Command
     usage: "/npc spawn [jmeno_npc]"
     permission: sourismc.safari.command.npc
-  xtime:
-    description: Safari Command
-    usage: "/xtime"
-    permission: sourismc.safari.command.safari
 permissions:
   sourismc.safari.command.safari:
     description: "Povolit spusteni safari commandu"

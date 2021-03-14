@@ -1,6 +1,7 @@
 package cloud.souris.aytos.mc.safari.listeners;
 
 import cloud.souris.aytos.mc.safari.SafariPlugin;
+import cloud.souris.aytos.mc.safari.SafariUtils;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.*;
@@ -17,17 +18,6 @@ import static cloud.souris.aytos.mc.safari.listeners.AreasListener.hoeEvent;
 public class PlayerListener implements Listener {
     private final SafariPlugin instance;
 
-    private final String[] introBookPages = { // 32 znaku na radek | max 50 stran
-            "Ahoj! Tady se dozvíš co a jak.\nJe to takový stručný návod k tomuhle serveru!\nOBSAH:\n  3. - 4. strana = Rezidence", // 1
-            "", // 2
-            "REZIDENCE:\n Pokud si chceš založit rezidenci, potřebuješ dřevěnou motyku a dojít do středu tvé nové rezidence.\n " + // 3
-                "Od místa kde stojíš se na každou stranu (150 kostek) ohraničí tvá rezidence, kde budeš ty a tvoje zásoby v bezpečí!",
-            " V místě použij pravé tlačítko myši s dřevěnou motykou v ruce a objeví se ti formulář pro založení rezidence.\n" + // 4
-                " Úpravný formulář je prozatím ve výstavbě, a pokud jsi v cizí (prozatím i své) rezidenci server ti to napíše do chatu!",
-            "", // 5
-            "ZÁVĚR:\n Doufáme že se tady budete bavit a hrát tu rádi! :]" // 6
-    };
-
     public PlayerListener(SafariPlugin instance) {
         this.instance = instance;
     }
@@ -43,24 +33,8 @@ public class PlayerListener implements Listener {
                 TextFormat.GREEN + "Vítej na " + TextFormat.WHITE + "Souris" + TextFormat.MINECOIN_GOLD + "MC",
                 TextFormat.AQUA + "" + TextFormat.ITALIC + "Vývojová verze");
 
-        ItemBookWritten safariBook = (ItemBookWritten) Item.get(387, 0, 1);
-        safariBook.writeBook(
-                TextFormat.RED + "Souris.CLOUD",
-                TextFormat.GREEN + "Příručka serveru",
-                introBookPages
-        );
-        boolean thisPlayerAlreadyHaveIntroBook = false;
-        for (Item i : event.getPlayer().getInventory().getContents().values()) {
-            if (i.equalsExact(safariBook)) {
-                thisPlayerAlreadyHaveIntroBook = true;
-                break;
-            }
-        }
-        if (event.getPlayer().getInventory().canAddItem(safariBook) && !thisPlayerAlreadyHaveIntroBook) {
-            event.getPlayer().getInventory().addItem(safariBook);
-        }
-
-        instance.dataProvider.initializePlayer(instance, event.getPlayer());
+        SafariUtils.givePlayerIntroBookAsync(event.getPlayer().getInventory());
+        instance.dataProvider.initializePlayerAsync(instance, event.getPlayer());
     }
 
     @EventHandler
@@ -117,10 +91,12 @@ public class PlayerListener implements Listener {
 
         if (inHand instanceof ItemCompass) {
             Position pos = event.getPlayer().getPosition().floor();
+            int biomeId = event.getPlayer().getLevel().getBiomeId((int) pos.getX(), (int) pos.getZ());
             event.getPlayer().sendTip(
                     TextFormat.GREEN + "X" + TextFormat.GRAY + ": " + TextFormat.WHITE + pos.getX() + TextFormat.GRAY + " | " +
                     TextFormat.GREEN + "Y" + TextFormat.GRAY + ": " + TextFormat.WHITE + pos.getY() + TextFormat.GRAY + " | " +
-                    TextFormat.GREEN + "Z" + TextFormat.GRAY + ": " + TextFormat.WHITE + pos.getZ()
+                    TextFormat.GREEN + "Z" + TextFormat.GRAY + ": " + TextFormat.WHITE + pos.getZ() + TextFormat.GRAY + " | " +
+                    TextFormat.GREEN + "Biome" + TextFormat.GRAY + ": " + TextFormat.WHITE + SafariUtils.getBiomeNameById(biomeId)
             );
         }
     }

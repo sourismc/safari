@@ -66,11 +66,6 @@ public class SafariPlugin extends PluginBase implements Listener {
             SafariCommands.npc(this, (Player) sender, command, label, args);
         }
 
-        if (commandCompare.apply("xtime")) { // tip je videt pod "facing" napisem (to bude asi popup)
-            Player p = (Player) sender;
-            p.sendTip(SafariUtils.formatMinecraftWorldTime(p.getLevel().getTime()));
-        }
-
         return true;
     }
 
