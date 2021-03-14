@@ -43,8 +43,7 @@ public class SafariPlugin extends PluginBase implements Listener {
     @Override
     public void onEnable() {
         this.getLogger().info(TextFormat.DARK_GREEN + "Enabled");
-        this.getServer().getNetwork().setName(TextFormat.GREEN + "Souris" + TextFormat.MINECOIN_GOLD + "MC" + TextFormat.WHITE); // set MOTD
-//        this.getServer().getNetwork().setSubName("");
+        this.getServer().getNetwork().setName(TextFormat.GREEN + "Souris" + TextFormat.MINECOIN_GOLD + "MC" + TextFormat.WHITE); // set MOTD (if submotd is set to "", server is unable to connect)
         initialize();
     }
 
@@ -60,7 +59,7 @@ public class SafariPlugin extends PluginBase implements Listener {
         Function<String, Boolean> commandCompare = (compare) -> command.getName().equalsIgnoreCase(compare) && sender instanceof Player;
 
         if (commandCompare.apply("safari")) {
-            SafariCommands.safari((Player) sender, command, label, args);
+            SafariCommands.safari(this, (Player) sender, command, label, args);
         }
 
         if (commandCompare.apply("npc")) {
@@ -85,6 +84,11 @@ public class SafariPlugin extends PluginBase implements Listener {
         Entity.registerEntity(HumanNPC.class.getSimpleName(), HumanNPC.class);
     }
 
+    private void registerUpdaters() {
+        getServer().getScheduler().scheduleDelayedRepeatingTask(this, new ScoreboardUpdater(this), 80, 80, true);
+        getServer().getScheduler().scheduleDelayedRepeatingTask(this, new NameTagUpdater(this), 100, 100, true);
+    }
+
     private void initialize() {
         registerEventListeners();
         registerNPCs();
@@ -98,8 +102,7 @@ public class SafariPlugin extends PluginBase implements Listener {
         areas = new ArrayList<>();
         npcs = new HashMap<>();
 
-        getServer().getScheduler().scheduleDelayedRepeatingTask(this, new ScoreboardUpdater(this), 80, 80, true);
-        getServer().getScheduler().scheduleDelayedRepeatingTask(this, new NameTagUpdater(this), 100, 100, true);
+        registerUpdaters();
     }
 
     private void dispose() {

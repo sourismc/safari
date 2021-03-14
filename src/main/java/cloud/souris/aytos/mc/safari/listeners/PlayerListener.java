@@ -21,22 +21,14 @@ public class PlayerListener implements Listener {
     private final SafariPlugin instance;
 
     private final String[] introBookLines = {
-            "Ahoj! Tady se dozvíš co a jak.",
+            "Ahoj! Tady se dozvíš co a jak.\nJe to takový stručný návod k tomuhle serveru!",
+            "OBSAH:\n  3. - 6. strana = Rezidence",
+            "REZIDENCE:\n Pokud si chceš založit rezidenci, potřebuješ dřevěnou motyku a dojít do středu tvé nové rezidence.",
+            "Od místa kde stojíš se na každou stranu (150 kostek) ohraničí tvá rezidence, kde budeš ty a tvoje zásoby v bezpečí!",
+            "V místě použij pravé tlačítko myši s dřevěnou motykou v ruce a objeví se ti formulář pro založení rezidence.",
+            "Úpravný formulář je prozatím ve výstavbě, a pokud jsi v cizí (prozatím i své) rezidenci server ti to napíše do chatu!",
             "",
-            "Pokud si chceš založit rezidenci,",
-            "potřebuješ dřevěnou motyku a dojít",
-            "do středu tvé nové rezidence.",
-            "Od místa kde stojíš se na každou",
-            "stranu 150 kostek ohraničí",
-            "tvá rezidence, kde budeš ty",
-            "a tvoje zásoby v bezpečí!",
-            "V místě použij pravé tlačítko",
-            "myši s dřevěnou motykou v ruce",
-            "a objeví se ti formulář pro",
-            "založení rezidence. Úpravný formulář",
-            "je prozatím ve výstavbě, a pokud jsi",
-            "v cizí (prozatím i své) rezidenci",
-            "server ti to napíše do chatu!"
+            "ZÁVĚR:\n Doufáme že se tady budete bavit a hrát tu rádi! :]"
     };
 
     public PlayerListener(SafariPlugin instance) {
@@ -54,14 +46,20 @@ public class PlayerListener implements Listener {
                 TextFormat.GREEN + "Vítej na " + TextFormat.WHITE + "Souris" + TextFormat.MINECOIN_GOLD + "MC",
                 TextFormat.AQUA + "" + TextFormat.ITALIC + "Vývojová verze");
 
-//        307 is ItemChestplateIron and not ItemBookWritten.....
         ItemBookWritten safariBook = (ItemBookWritten) Item.get(387, 0, 1);
         safariBook.writeBook(
                 TextFormat.RED + "Souris.CLOUD",
                 TextFormat.GREEN + "Příručka serveru",
                 introBookLines
         );
-        if (event.getPlayer().getInventory().canAddItem(safariBook)) {
+        boolean thisPlayerAlreadyHaveIntroBook = false;
+        for (Item i : event.getPlayer().getInventory().getContents().values()) {
+            if (i.equalsExact(safariBook)) {
+                thisPlayerAlreadyHaveIntroBook = true;
+                break;
+            }
+        }
+        if (event.getPlayer().getInventory().canAddItem(safariBook) && !thisPlayerAlreadyHaveIntroBook) {
             event.getPlayer().getInventory().addItem(safariBook);
         }
 
