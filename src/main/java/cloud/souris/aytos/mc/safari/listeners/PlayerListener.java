@@ -100,7 +100,7 @@ public class PlayerListener implements Listener {
 
     private void rightClickEvent(PlayerInteractEvent event) {
         Item inHand = event.getPlayer().getInventory().getItemInHand();
-        if (inHand.isHoe() && inHand.getTier() == 1) { // Is wooden hoe
+        if (inHand.isHoe() && inHand.getTier() == 1) { // is Wooden Hoe
             Long now = System.currentTimeMillis();
             if (instance.hoeCooldowns.containsKey(event.getPlayer().getUniqueId())) {
                 Long cd = instance.hoeCooldowns.get(event.getPlayer().getUniqueId());
@@ -115,8 +115,12 @@ public class PlayerListener implements Listener {
             }
         }
 
-        if (inHand.isTool() && inHand instanceof ItemCompass) {
+        if (inHand instanceof ItemCompass) {
             event.getPlayer().sendMessage("Okay tohle je kompas :-)");
+        }
+
+        if (inHand.getId() == 345) { // is Compass
+            event.getPlayer().sendMessage("Okay tohle je na 100% kompas :-)");
         }
     }
 }
