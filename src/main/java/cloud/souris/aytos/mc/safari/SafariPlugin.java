@@ -44,6 +44,7 @@ public class SafariPlugin extends PluginBase implements Listener {
     public void onEnable() {
         this.getLogger().info(TextFormat.DARK_GREEN + "Enabled");
         this.getServer().getNetwork().setName(TextFormat.GREEN + "Souris" + TextFormat.MINECOIN_GOLD + "MC"); // set MOTD
+        this.getServer().getNetwork().setSubName("");
         initialize();
     }
 
@@ -68,7 +69,13 @@ public class SafariPlugin extends PluginBase implements Listener {
 
         if (commandCompare.apply("xtime")) {
             Player p = (Player) sender;
-            p.sendMessage("Aktuální čas je " + p.getLevel().getTime());
+            p.sendPopup("Prvni test", SafariUtils.formatMinecraftWorldTime(p.getLevel().getTime()));
+//            p.sendMessage("Aktuální čas je " + SafariUtils.formatMinecraftWorldTime(p.getLevel().getTime()));
+        }
+
+        if (commandCompare.apply("xxtime")) {
+            Player p = (Player) sender;
+            p.sendTip(SafariUtils.formatMinecraftWorldTime(p.getLevel().getTime()));
         }
 
         return true;

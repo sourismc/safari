@@ -1,6 +1,7 @@
 package cloud.souris.aytos.mc.safari.listeners;
 
 import cloud.souris.aytos.mc.safari.SafariPlugin;
+import cn.nukkit.Player;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerInteractEvent;
@@ -23,6 +24,14 @@ public class PlayerListener implements Listener {
         event.setJoinMessage(
                 TextFormat.DARK_GRAY + "[" + TextFormat.GREEN + "+" + TextFormat.DARK_GRAY + "] " +
                 TextFormat.WHITE + event.getPlayer().getName());
+
+        event.getPlayer().sendTitle(
+                TextFormat.GREEN + "Vítej na " + TextFormat.WHITE + "Souris" + TextFormat.MINECOIN_GOLD + "MC",
+                TextFormat.AQUA + "" + TextFormat.ITALIC + "Vývojová verze",
+                60,
+                40,
+                30
+        );
 
         instance.dataProvider.initializePlayer(instance, event.getPlayer());
     }

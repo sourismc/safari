@@ -2,6 +2,7 @@ package cloud.souris.aytos.mc.safari.updaters;
 
 import cloud.souris.aytos.mc.safari.SafariPlayer;
 import cloud.souris.aytos.mc.safari.SafariPlugin;
+import cloud.souris.aytos.mc.safari.SafariUtils;
 import cn.nukkit.Player;
 import cn.nukkit.utils.TextFormat;
 import de.lucgameshd.scoreboard.api.ScoreboardAPI;
@@ -29,8 +30,8 @@ public class ScoreboardUpdater extends Thread {
                     }
 
                     Scoreboard scoreboard = ScoreboardAPI.createScoreboard();
-                    String sidebarTitle = "   " + TextFormat.GREEN + "Souris" + TextFormat.MINECOIN_GOLD + "MC" +
-                        TextFormat.WHITE + " - " + TextFormat.GRAY + p.getLevel().getTime() + "   ";
+                    String sidebarTitle = "         " + TextFormat.GREEN + "Souris" + TextFormat.MINECOIN_GOLD + "MC" +
+                        TextFormat.WHITE + " - " + TextFormat.GRAY + SafariUtils.formatMinecraftWorldTime(p.getLevel().getTime()) + "         ";
                     ScoreboardDisplay scoreboardDisplay = scoreboard.addDisplay(DisplaySlot.SIDEBAR, "safariSidebar", sidebarTitle);
 //                    ScoreboardDisplay scoreboardList = scoreboard.addDisplay(DisplaySlot.LIST, "safariList", "SourisMC Bedrock Edition");
 
