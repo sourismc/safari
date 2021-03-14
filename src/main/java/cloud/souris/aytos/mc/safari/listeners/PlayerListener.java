@@ -54,15 +54,16 @@ public class PlayerListener implements Listener {
                 TextFormat.GREEN + "Vítej na " + TextFormat.WHITE + "Souris" + TextFormat.MINECOIN_GOLD + "MC",
                 TextFormat.AQUA + "" + TextFormat.ITALIC + "Vývojová verze");
 
-        ItemBookWritten safariBook = (ItemBookWritten) Item.get(307, 0, 1);
-        safariBook.writeBook(
-                TextFormat.RED + "Souris.CLOUD",
-                TextFormat.GREEN + "Příručka serveru",
-                introBookLines
-        );
-        if (event.getPlayer().getInventory().canAddItem(safariBook)) {
-            event.getPlayer().getInventory().addItem(safariBook);
-        }
+//        307 is ItemChestplateIron and not ItemBookWritten.....
+//        ItemBookWritten safariBook = (ItemBookWritten) Item.get(307, 0, 1);
+//        safariBook.writeBook(
+//                TextFormat.RED + "Souris.CLOUD",
+//                TextFormat.GREEN + "Příručka serveru",
+//                introBookLines
+//        );
+//        if (event.getPlayer().getInventory().canAddItem(safariBook)) {
+//            event.getPlayer().getInventory().addItem(safariBook);
+//        }
 
         instance.dataProvider.initializePlayer(instance, event.getPlayer());
     }
