@@ -9,13 +9,35 @@ import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.event.player.PlayerJoinEvent;
 import cn.nukkit.event.player.PlayerQuitEvent;
 import cn.nukkit.item.Item;
+import cn.nukkit.item.ItemBookWritten;
 import cn.nukkit.level.Level;
 import cn.nukkit.utils.TextFormat;
+
+import java.util.Arrays;
 
 import static cloud.souris.aytos.mc.safari.listeners.AreasListener.hoeEvent;
 
 public class PlayerListener implements Listener {
     private final SafariPlugin instance;
+
+    private final String[] introBookLines = {
+            "Ahoj! Tady se dozvíš co a jak.",
+            "",
+            "Pokud si chceš založit rezidenci,",
+            "potřebuješ dřevěnou motyku a dojít",
+            "do středu tvé nové rezidence.",
+            "Od místa kde stojíš se na každou",
+            "stranu 150 kostek ohraničí",
+            "tvá rezidence, kde budeš ty",
+            "a tvoje zásoby v bezpečí!",
+            "V místě použij pravé tlačítko",
+            "myši s dřevěnou motykou v ruce",
+            "a objeví se ti formulář pro",
+            "založení rezidence. Úpravný formulář",
+            "je prozatím ve výstavbě, a pokud jsi",
+            "v cizí (prozatím i své) rezidenci",
+            "server ti to napíše do chatu!"
+    };
 
     public PlayerListener(SafariPlugin instance) {
         this.instance = instance;
@@ -31,6 +53,16 @@ public class PlayerListener implements Listener {
         event.getPlayer().sendTitle(
                 TextFormat.GREEN + "Vítej na " + TextFormat.WHITE + "Souris" + TextFormat.MINECOIN_GOLD + "MC",
                 TextFormat.AQUA + "" + TextFormat.ITALIC + "Vývojová verze");
+
+        ItemBookWritten safariBook = (ItemBookWritten) Item.get(307, 0, 1);
+        safariBook.writeBook(
+                TextFormat.RED + "Souris.CLOUD",
+                TextFormat.GREEN + "Příručka serveru",
+                introBookLines
+        );
+        if (event.getPlayer().getInventory().canAddItem(safariBook)) {
+            event.getPlayer().getInventory().addItem(safariBook);
+        }
 
         instance.dataProvider.initializePlayer(instance, event.getPlayer());
     }
