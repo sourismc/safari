@@ -70,7 +70,7 @@ public class SafariCommands {
                         int npcId = Integer.getInteger(args[1]);
                         Entity entity = sender.getLevel().getEntity(npcId);
                         if (entity != null) {
-                            entity.despawnFromAll();
+                            entity.close();
                             sender.sendMessage("NPC bylo smazano!");
                         } else {
                             sender.sendMessage("Zadne NPC s ID " + args[1] + " neexistuje!");

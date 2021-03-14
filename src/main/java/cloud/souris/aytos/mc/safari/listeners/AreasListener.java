@@ -41,7 +41,7 @@ public class AreasListener implements Listener {
         if (area != null) {
             if (area.isAllowed("disableMobs")) {
                 if (event.getEntity() instanceof EntityMob || event.getEntity() instanceof BaseEntity) {
-                    instance.getLogger().info("area -- mobspawn disabled here so canceling entity");
+//                    instance.getLogger().info("area -- mobspawn disabled here so canceling entity");
                     event.getEntity().close();
                 }
             }
