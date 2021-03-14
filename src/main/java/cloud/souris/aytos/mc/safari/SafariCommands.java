@@ -67,7 +67,7 @@ public class SafariCommands {
                     break;
                 case "despawn":
                     try {
-                        long npcId = Long.getLong(args[1]);
+                        int npcId = Integer.getInteger(args[1]);
                         Entity entity = sender.getLevel().getEntity(npcId);
                         if (entity != null) {
                             entity.despawnFromAll();
