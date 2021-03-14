@@ -87,6 +87,7 @@ public class PlayerListener implements Listener {
         event.getPlayer().setTimeSinceRest(0);
         event.getPlayer().setSpawn(bedPosition);
         event.getPlayer().teleport(bedPosition, PlayerTeleportEvent.TeleportCause.PLUGIN);
+        event.getPlayer().sendMessage("Vyspal jsi se a byl zde nastaven tvůj počáteční bod!");
         instance.getServer().broadcastMessage(
                 TextFormat.BLUE + "" + TextFormat.BOLD +
                 event.getPlayer().getName() + TextFormat.RESET + " " + TextFormat.WHITE +
