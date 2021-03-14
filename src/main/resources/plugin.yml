@@ -16,10 +16,6 @@ commands:
     description: Safari Command
     usage: "/xtime"
     permission: sourismc.safari.command.safari
-  xxtime:
-    description: Safari Command
-    usage: "/xxtime"
-    permission: sourismc.safari.command.safari
 permissions:
   sourismc.safari.command.safari:
     description: "Povolit spusteni safari commandu"

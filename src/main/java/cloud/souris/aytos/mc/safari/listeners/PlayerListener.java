@@ -4,10 +4,12 @@ import cloud.souris.aytos.mc.safari.SafariPlugin;
 import cn.nukkit.Player;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
+import cn.nukkit.event.player.PlayerBedEnterEvent;
 import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.event.player.PlayerJoinEvent;
 import cn.nukkit.event.player.PlayerQuitEvent;
 import cn.nukkit.item.Item;
+import cn.nukkit.level.Level;
 import cn.nukkit.utils.TextFormat;
 
 import static cloud.souris.aytos.mc.safari.listeners.AreasListener.hoeEvent;
@@ -48,6 +50,17 @@ public class PlayerListener implements Listener {
         if (event.getAction() == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK || event.getAction() == PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
             rightClickEvent(event);
         }
+    }
+
+    @EventHandler
+    public void onBedEnter(PlayerBedEnterEvent event) {
+        event.getBed().getLevel().setTime(Level.TIME_DAY);
+        event.setCancelled(true);
+        instance.getServer().broadcastMessage(
+                TextFormat.BLUE + "" + TextFormat.BOLD +
+                event.getPlayer().getName() + TextFormat.RESET + " " + TextFormat.WHITE +
+                "šel spát a udělal nám den!"
+        );
     }
 
     // Event Holders
