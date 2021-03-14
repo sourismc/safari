@@ -1,5 +1,7 @@
 package cloud.souris.aytos.mc.safari.areas;
 
+import cloud.souris.aytos.mc.safari.SafariPlugin;
+import cn.nukkit.Player;
 import cn.nukkit.math.Vector3;
 import org.bson.Document;
 
@@ -139,5 +141,25 @@ public class Area {
         }
 
         return null;
+    }
+
+    // STATICS
+    public static boolean isOwner(Player player, Area area) {
+        return player.getUniqueId().toString().equalsIgnoreCase(area.getOwnerId().toString());
+    }
+
+    public static void notify(SafariPlugin instance, Player player, String message) {
+        Long now = System.currentTimeMillis();
+        if (instance.areaMessageCooldowns.containsKey(player.getUniqueId())) {
+            Long cd = instance.areaMessageCooldowns.get(player.getUniqueId());
+            long diff = now - cd;
+            instance.areaMessageCooldowns.put(player.getUniqueId(), now);
+            if (diff > 2500) {
+                player.sendMessage(message);
+            }
+        } else {
+            instance.areaMessageCooldowns.put(player.getUniqueId(), now);
+            player.sendMessage(message);
+        }
     }
 }

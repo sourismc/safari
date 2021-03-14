@@ -2,11 +2,13 @@ package cloud.souris.aytos.mc.safari;
 
 import cloud.souris.aytos.mc.safari.areas.Area;
 import cloud.souris.aytos.mc.safari.areas.AreaFlag;
-import cloud.souris.aytos.mc.safari.listeners.BlockListener;
-import cloud.souris.aytos.mc.safari.listeners.EntityListener;
+import cloud.souris.aytos.mc.safari.listeners.AreasListener;
+import cloud.souris.aytos.mc.safari.listeners.NPCListener;
 import cloud.souris.aytos.mc.safari.listeners.PlayerListener;
+import cloud.souris.aytos.mc.safari.npcs.HumanNPC;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
+import cn.nukkit.entity.Entity;
 import cn.nukkit.event.Listener;
 import cn.nukkit.Player;
 import cn.nukkit.level.Position;
@@ -27,6 +29,7 @@ public class SafariPlugin extends PluginBase implements Listener {
     public HashMap<UUID, Long> hoeCooldowns;
     public HashMap<UUID, Long> areaMessageCooldowns;
     public ArrayList<Area> areas;
+    public HashMap<String, Entity> npcs;
 
     @Override
     public void onLoad() {
@@ -52,17 +55,26 @@ public class SafariPlugin extends PluginBase implements Listener {
             SafariCommands.safari((Player) sender, command, label, args);
         }
 
+        if (command.getName().equalsIgnoreCase("npc") && sender instanceof Player) {
+            SafariCommands.npc(this, (Player) sender, command, label, args);
+        }
+
         return true;
     }
 
     private void registerEventListeners() {
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
-        getServer().getPluginManager().registerEvents(new EntityListener(this), this);
-        getServer().getPluginManager().registerEvents(new BlockListener(this), this);
+        getServer().getPluginManager().registerEvents(new AreasListener(this), this);
+        getServer().getPluginManager().registerEvents(new NPCListener(this), this);
+    }
+
+    private void registerNPCs() {
+        Entity.registerEntity(HumanNPC.class.getSimpleName(), HumanNPC.class);
     }
 
     private void initialize() {
         registerEventListeners();
+        registerNPCs();
 
         dataProvider = new SafariDataProvider();
         dataProvider.connect(this);
@@ -71,6 +83,7 @@ public class SafariPlugin extends PluginBase implements Listener {
         hoeCooldowns = new HashMap<>();
         areaMessageCooldowns = new HashMap<>();
         areas = new ArrayList<>();
+        npcs = new HashMap<>();
 
         getServer().getScheduler().scheduleDelayedRepeatingTask(this, new SafariScoreboardUpdater(this), 80, 80, true);
     }
@@ -93,6 +106,14 @@ public class SafariPlugin extends PluginBase implements Listener {
     }
 
     public void removePlayer(UUID uuid) { this.players.remove(uuid); }
+
+    public void addNPC(String name, Entity entity) { this.npcs.put(name, entity); }
+
+    public Entity getNPC(String name) { return this.npcs.get(name); }
+
+    public void removeNPC(String name) { this.npcs.remove(name); }
+
+    public boolean npcExists(String name) { return this.npcs.containsKey(name); }
 
     public Area getAreaByPosition(Position position) {
         for (Area area : areas) {

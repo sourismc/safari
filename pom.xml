@@ -28,6 +28,7 @@
             <version>1.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+<!--        SYSTEM DEPENDENCIES-->
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
@@ -40,6 +41,7 @@
             <version>2.11.2</version>
             <scope>compile</scope>
         </dependency>
+<!--        APIS DEPENDENCIES-->
         <dependency>
             <groupId>de.lucgameshd</groupId>
             <artifactId>ScoreboardAPI</artifactId>
@@ -55,6 +57,14 @@
             <optional>false</optional>
             <scope>system</scope>
             <systemPath>${basedir}/lib/FormAPI.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>MobPlugin</groupId>
+            <artifactId>MobPlugin</artifactId>
+            <version>1.18.3</version>
+            <systemPath>${basedir}/lib/MobPlugin.jar</systemPath>
+            <scope>system</scope>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 
